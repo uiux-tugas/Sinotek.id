@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami | SINOTEK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
+</head>
+<body class="bg-gray-50 text-slate-900">
+
+    <nav class="fixed w-full bg-white/80 backdrop-blur border-b z-50" x-data="{ open: false }">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold text-blue-600">SINOTEK</a>
+            <div class="hidden md:flex space-x-8 items-center text-sm font-semibold">
+                <a href="index.html" class="hover:text-blue-600">Beranda</a>
+                <div class="relative" @mouseenter="open = true" @mouseleave="open = false" @click.away="open = false">
+                    <button class="text-blue-600 flex items-center">Tentang Kami <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg></button>
+                    <div x-show="open" x-transition class="absolute top-full -left-4 w-48 bg-white shadow-xl rounded-lg py-2 border border-gray-100">
+                        <a href="#vision" class="block px-4 py-2 hover:bg-blue-50">Visi & Misi</a>
+                        <a href="#team" class="block px-4 py-2 hover:bg-blue-50">Leadership</a>
+                        <a href="#timeline" class="block px-4 py-2 hover:bg-blue-50">Timeline</a>
+                    </div>
+                </div>
+                <a href="service.html" class="hover:text-blue-600">Layanan</a>
+                <a href="portofolio.html" class="hover:text-blue-600">Portofolio</a>
+                <a href="product.html" class="hover:text-blue-600">Produk</a>
+                <a href="contact.html" class="bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition">Hubungi Kami</a>
+            </div>
+            <div class="md:hidden">
+                <button @click="open = !open" class="p-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
+            </div>
+        </div>
+        <div x-show="open" class="md:hidden bg-white border-t border-gray-100 p-4 space-y-4">
+            <a href="index.html" class="block font-semibold">Beranda</a>
+            <a href="#vision" class="block font-semibold text-blue-600">Visi & Misi</a>
+            <a href="#team" class="block font-semibold text-gray-600">Leadership</a>
+            <a href="#timeline" class="block font-semibold text-gray-600">Timeline</a>
+            <a href="service.html" class="block font-semibold text-gray-600">Layanan</a>
+            <a href="portofolio.html" class="block font-semibold text-gray-600">Portofolio</a>
+            <a href="product.html" class="block font-semibold text-gray-600">Produk</a>
+            <a href="contact.html" class="block font-semibold text-gray-600">Hubungi Kami</a>
+        </div>
+    </nav>
+
+<!-- HERO -->
+<section class="pt-32 pb-24 bg-white text-center">
+    <div class="max-w-3xl mx-auto px-6">
+        <span class="text-blue-600 font-semibold text-sm uppercase tracking-wider">
+            Tentang Kami
+        </span>
+        <h1 class="text-4xl lg:text-5xl font-bold mt-4 mb-6 leading-tight">
+            Partner Teknologi untuk <span class="text-blue-600">Pertumbuhan Bisnis</span>
+        </h1>
+        <p class="text-gray-600 text-lg">
+            SINOTEK hadir membantu bisnis berkembang melalui solusi digital yang tidak hanya canggih,
+            tetapi benar-benar digunakan dan memberikan dampak nyata.
+        </p>
+    </div>
+</section>
+
+<!-- STORY -->
+<section class="py-20">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+        <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786" class="rounded-2xl shadow-lg">
+        <div>
+            <h2 class="text-3xl font-bold mb-4">Cerita Kami</h2>
+            <p class="text-gray-600 mb-4">
+                Banyak bisnis ingin bertransformasi digital, tapi terjebak dengan sistem yang rumit,
+                mahal, dan tidak sesuai kebutuhan.
+            </p>
+            <p class="text-gray-600">
+                SINOTEK hadir untuk menjembatani gap tersebut — menghadirkan solusi IT yang fleksibel,
+                efisien, dan benar-benar menyelesaikan masalah operasional bisnis.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- VISI MISI -->
+<section id="vision" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12">
+        <div class="p-8 rounded-2xl border">
+            <h3 class="text-2xl font-bold mb-4 text-blue-600">Visi</h3>
+            <p class="text-gray-600">
+                Menjadi partner teknologi terpercaya yang membantu bisnis berkembang melalui transformasi digital yang tepat guna.
+            </p>
+        </div>
+
+        <div class="p-8 rounded-2xl border">
+            <h3 class="text-2xl font-bold mb-4 text-blue-600">Misi</h3>
+            <ul class="text-gray-600 space-y-3">
+                <li>✔ Mengembangkan solusi IT yang relevan dengan kebutuhan bisnis</li>
+                <li>✔ Meningkatkan efisiensi operasional client</li>
+                <li>✔ Memberikan support jangka panjang</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- KEUNGGULAN -->
+<section class="py-20">
+    <div class="max-w-6xl mx-auto px-6 text-center mb-16">
+        <h2 class="text-3xl font-bold">Kenapa Memilih Kami?</h2>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h3 class="font-bold mb-2">Custom Solution</h3>
+            <p class="text-gray-600 text-sm">
+                Sistem dibuat sesuai kebutuhan bisnis, bukan template.
+            </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h3 class="font-bold mb-2">Efisiensi Nyata</h3>
+            <p class="text-gray-600 text-sm">
+                Fokus pada hasil: hemat waktu, biaya, dan tenaga.
+            </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h3 class="font-bold mb-2">Support Berkelanjutan</h3>
+            <p class="text-gray-600 text-sm">
+                Kami tidak hanya build, tapi juga maintain & improve.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- TEAM -->
+<section id="team" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6 text-center mb-16">
+        <h2 class="text-3xl font-bold">Tim Kami</h2>
+        <p class="text-gray-600 mt-2">Profesional di bidang teknologi & bisnis</p>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10 text-center">
+
+        <div>
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-32 h-32 mx-auto rounded-full mb-4">
+            <h4 class="font-bold">CEO</h4>
+            <p class="text-gray-500 text-sm">Business Strategy</p>
+        </div>
+
+        <div>
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-32 h-32 mx-auto rounded-full mb-4">
+            <h4 class="font-bold">CTO</h4>
+            <p class="text-gray-500 text-sm">Technology Lead</p>
+        </div>
+
+        <div>
+            <img src="https://randomuser.me/api/portraits/men/65.jpg" class="w-32 h-32 mx-auto rounded-full mb-4">
+            <h4 class="font-bold">Project Manager</h4>
+            <p class="text-gray-500 text-sm">Delivery & Execution</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline" class="py-20">
+    <div class="max-w-6xl mx-auto px-6 text-center mb-16">
+        <h2 class="text-3xl font-bold">Perjalanan Kami</h2>
+        <p class="text-gray-600 mt-2">Milestone penting dalam perjalanan SINOTEK</p>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="relative">
+            <!-- Timeline line -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-blue-200"></div>
+
+            <!-- Timeline items -->
+            <div class="space-y-12">
+                <div class="flex items-center">
+                    <div class="w-1/2 pr-8 text-right">
+                        <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-blue-600">
+                            <h3 class="text-xl font-bold text-blue-600">2020</h3>
+                            <p class="text-gray-600">Didirikan dengan visi membantu UMKM go digital</p>
+                        </div>
+                    </div>
+                    <div class="w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-lg"></div>
+                    <div class="w-1/2 pl-8"></div>
+                </div>
+
+                <div class="flex items-center">
+                    <div class="w-1/2 pr-8"></div>
+                    <div class="w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-lg"></div>
+                    <div class="w-1/2 pl-8">
+                        <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-blue-600">
+                            <h3 class="text-xl font-bold text-blue-600">2022</h3>
+                            <p class="text-gray-600">Mencapai 50+ client dari berbagai industri</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center">
+                    <div class="w-1/2 pr-8 text-right">
+                        <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-blue-600">
+                            <h3 class="text-xl font-bold text-blue-600">2024</h3>
+                            <p class="text-gray-600">Meluncurkan produk digital siap pakai</p>
+                        </div>
+                    </div>
+                    <div class="w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-lg"></div>
+                    <div class="w-1/2 pl-8"></div>
+                </div>
+
+                <div class="flex items-center">
+                    <div class="w-1/2 pr-8"></div>
+                    <div class="w-4 h-4 bg-blue-600 rounded-full border-4 border-white shadow-lg"></div>
+                    <div class="w-1/2 pl-8">
+                        <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-blue-600">
+                            <h3 class="text-xl font-bold text-blue-600">2026</h3>
+                            <p class="text-gray-600">Ekspansi ke pasar regional</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-20 text-center">
+    <h2 class="text-3xl font-bold mb-4">
+        Siap Transformasi Digital?
+    </h2>
+    <p class="text-gray-600 mb-8">
+        Konsultasikan kebutuhan bisnis Anda bersama tim kami.
+    </p>
+    <a href="contact.html" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold">
+        Konsultasi Gratis
+    </a>
+</section>
+
+</body>
+</html>

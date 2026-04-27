@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio | SINOTEK</title>
+    <script src="https://cdn.tailwindcss.com/3.4.0"></script>
+    <script>
+        // Simple portfolio filter and modal without Alpine.js
+        let selectedCategory = 'all';
+        let modalOpen = false;
+        let selectedProject = null;
+        let searchQuery = '';
+        let activeTab = 'overview';
+
+        // Simple mobile menu toggle without Alpine.js
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) {
+                menu.classList.toggle('hidden');
+            }
+        }
+
+        function filterProjects() {
+            const cards = document.querySelectorAll('[data-category]');
+            cards.forEach(card => {
+                const category = card.dataset.category;
+                const title = card.dataset.title.toLowerCase();
+                const desc = card.dataset.desc.toLowerCase();
+                const query = searchQuery.toLowerCase();
+                
+                const categoryMatch = selectedCategory === 'all' || category === selectedCategory;
+                const searchMatch = query === '' || title.includes(query) || desc.includes(query);
+                
+                card.style.display = (categoryMatch && searchMatch) ? 'block' : 'none';
+            });
+        }
+
+        function openModal(projectId) {
+            selectedProject = projectId;
+            modalOpen = true;
+            activeTab = 'overview';
+            document.getElementById('modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            updateModalContent();
+        }
+
+        function closeModal() {
+            modalOpen = false;
+            document.getElementById('modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function switchTab(tabName) {
+            activeTab = tabName;
+            updateModalContent();
+        }
+
+        function updateModalContent() {
+            if (!modalOpen) return;
+            
+            const projectData = getProjectData(selectedProject);
+            if (!projectData) return;
+
+            // Update title
+            document.getElementById('modal-title').textContent = projectData.title + ' Case Study';
+            
+            // Update image
+            document.getElementById('modal-image').src = projectData.image;
+            
+            // Update tab content
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.style.display = 'none');
+            
+            const activeContent = document.getElementById(activeTab + '-content');
+            if (activeContent) {
+                activeContent.style.display = 'block';
+                activeContent.innerHTML = projectData[activeTab];
+            }
+        }
+
+        function getProjectData(projectId) {
+            const projects = {
+                'erp1': {
+                    title: 'ERP Retail Management',
+                    category: 'erp',
+                    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80',
+                    overview: `
+                        <p class="text-gray-600 mb-4">Sistem ERP terintegrasi untuk manajemen retail yang mencakup inventory, sales, dan financial reporting dalam satu platform. Project ini membantu PT Retail Nusantara mengoptimalkan operasional toko modern mereka.</p>
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600">40+</div>
+                                <div class="text-sm text-gray-600">Toko Terintegrasi</div>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">500K+</div>
+                                <div class="text-sm text-gray-600">Transaksi/Bulan</div>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-purple-600">6</div>
+                                <div class="text-sm text-gray-600">Bulan Development</div>
+                            </div>
+                        </div>
+                    `,
+                    challenge: `
+                        <h3 class="text-xl font-semibold mb-4">Tantangan yang Dihadapi</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Inventory Management Tidak Akurat</h4>
+                                    <p class="text-gray-600">Stock opname manual menyebabkan selisih inventory hingga 15% dan kesulitan tracking produk real-time.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Laporan Keuangan Lambat</h4>
+                                    <p class="text-gray-600">Proses reconciliation memakan waktu hingga 2 minggu setiap bulan, menyebabkan delay dalam pengambilan keputusan.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Fragmentasi Data</h4>
+                                    <p class="text-gray-600">Data penjualan, inventory, dan keuangan tersimpan di sistem berbeda, sulit untuk analisis terintegrasi.</p>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    solution: `
+                        <h3 class="text-xl font-semibold mb-4">Solusi yang Diterapkan</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🏪 Point of Sale (POS) Integration</h4>
+                                <p class="text-gray-600 text-sm">Integrasi real-time antara kasir dan sistem inventory untuk update stock otomatis.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">📊 Automated Financial Reporting</h4>
+                                <p class="text-gray-600 text-sm">Dashboard keuangan real-time dengan P&L statement, cash flow, dan budget vs actual analysis.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">📱 Mobile Inventory App</h4>
+                                <p class="text-gray-600 text-sm">Aplikasi mobile untuk staff warehouse melakukan stock opname dengan barcode scanner.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🔄 API Integration</h4>
+                                <p class="text-gray-600 text-sm">RESTful API untuk integrasi dengan supplier system dan e-commerce platform.</p>
+                            </div>
+                        </div>
+                    `,
+                    results: `
+                        <h3 class="text-xl font-semibold mb-4">Hasil yang Dicapai</h3>
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-blue-600 mb-2">40%</div>
+                                <div class="text-sm font-semibold text-gray-700">Peningkatan Efisiensi Operasional</div>
+                                <div class="text-xs text-gray-600 mt-1">Waktu proses inventory berkurang drastis</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-green-600 mb-2">95%</div>
+                                <div class="text-sm font-semibold text-gray-700">Akurasi Inventory</div>
+                                <div class="text-xs text-gray-600 mt-1">Error stock berkurang dari 15% ke <1%</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-purple-600 mb-2">2 hari</div>
+                                <div class="text-sm font-semibold text-gray-700">Waktu Laporan Keuangan</div>
+                                <div class="text-xs text-gray-600 mt-1">Dari 2 minggu menjadi 2 hari</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-orange-600 mb-2">ROI 300%</div>
+                                <div class="text-sm font-semibold text-gray-700">Return on Investment</div>
+                                <div class="text-xs text-gray-600 mt-1">Break-even dalam 8 bulan</div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">💬 Testimoni Client:</h4>
+                            <p class="text-gray-600 italic">"ERP system dari SINOTEK telah merevolusi cara kami mengelola bisnis retail. Efisiensi meningkat drastis dan sekarang kami bisa fokus pada pelanggan, bukan paperwork."</p>
+                            <p class="text-sm text-gray-500 mt-2">- Bapak Ahmad, Direktur Operasional PT Retail Nusantara</p>
+                        </div>
+                    `
+                },
+                'erp2': {
+                    title: 'ERP Manufacturing',
+                    category: 'erp',
+                    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+                    overview: `
+                        <p class="text-gray-600 mb-4">Sistem ERP komprehensif untuk industri manufaktur dengan fokus pada production planning, supply chain management, dan quality control. Project ini membantu PT Metalindo Jaya mengoptimalkan pabrik manufaktur mereka.</p>
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600">50+</div>
+                                <div class="text-sm text-gray-600">Production Lines</div>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">2M+</div>
+                                <div class="text-sm text-gray-600">Units/Bulan</div>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-purple-600">8</div>
+                                <div class="text-sm text-gray-600">Bulan Development</div>
+                            </div>
+                        </div>
+                    `,
+                    challenge: `
+                        <h3 class="text-xl font-semibold mb-4">Tantangan yang Dihadapi</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Production Planning Inefisien</h4>
+                                    <p class="text-gray-600">Planning produksi manual menyebabkan overproduction dan stock material berlebih.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Supply Chain Disruption</h4>
+                                    <p class="text-gray-600">Kesulitan tracking supplier performance dan lead time yang tidak predictable.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Quality Control Manual</h4>
+                                    <p class="text-gray-600">Proses quality check manual menyebabkan defect rate tinggi dan recall produk.</p>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    solution: `
+                        <h3 class="text-xl font-semibold mb-4">Solusi yang Diterapkan</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🏭 Advanced Production Planning</h4>
+                                <p class="text-gray-600 text-sm">MRP (Material Requirements Planning) system dengan forecasting akurat berdasarkan historical data.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🚛 Supply Chain Optimization</h4>
+                                <p class="text-gray-600 text-sm">Vendor management system dengan automated PO dan performance tracking.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🔍 Digital Quality Control</h4>
+                                <p class="text-gray-600 text-sm">IoT sensors dan automated inspection stations untuk real-time quality monitoring.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">📊 Real-time Analytics</h4>
+                                <p class="text-gray-600 text-sm">Dashboard OEE (Overall Equipment Effectiveness) dan production KPIs.</p>
+                            </div>
+                        </div>
+                    `,
+                    results: `
+                        <h3 class="text-xl font-semibold mb-4">Hasil yang Dicapai</h3>
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-blue-600 mb-2">35%</div>
+                                <div class="text-sm font-semibold text-gray-700">Peningkatan Efisiensi Produksi</div>
+                                <div class="text-xs text-gray-600 mt-1">OEE meningkat dari 65% ke 87%</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-green-600 mb-2">25%</div>
+                                <div class="text-sm font-semibold text-gray-700">Pengurangan Biaya Operasional</div>
+                                <div class="text-xs text-gray-600 mt-1">Inventory cost turun signifikan</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-purple-600 mb-2">98%</div>
+                                <div class="text-sm font-semibold text-gray-700">On-Time Delivery</div>
+                                <div class="text-xs text-gray-600 mt-1">Dari 85% menjadi 98%</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-orange-600 mb-2">60%</div>
+                                <div class="text-sm font-semibold text-gray-700">Pengurangan Defect Rate</div>
+                                <div class="text-xs text-gray-600 mt-1">Quality improvement drastis</div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">💬 Testimoni Client:</h4>
+                            <p class="text-gray-600 italic">"Sistem ERP dari SINOTEK telah mentransformasi pabrik kami. Sekarang kami bisa memprediksi demand dengan akurat dan mengoptimalkan supply chain secara real-time."</p>
+                            <p class="text-sm text-gray-500 mt-2">- Ibu Siti, Plant Manager PT Metalindo Jaya</p>
+                        </div>
+                    `
+                },
+                'software1': {
+                    title: 'HRIS Platform',
+                    category: 'software',
+                    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f',
+                    overview: `
+                        <p class="text-gray-600 mb-4">Platform Human Resource Information System (HRIS) berbasis cloud yang komprehensif untuk manajemen SDM modern. Project ini membantu CV Tech Solutions mengelola 500+ karyawan dengan efisien.</p>
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600">500+</div>
+                                <div class="text-sm text-gray-600">Karyawan Aktif</div>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">95%</div>
+                                <div class="text-sm text-gray-600">Attendance Rate</div>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-purple-600">4</div>
+                                <div class="text-sm text-gray-600">Bulan Development</div>
+                            </div>
+                        </div>
+                    `,
+                    challenge: `
+                        <h3 class="text-xl font-semibold mb-4">Tantangan yang Dihadapi</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Absensi Manual & Inakurasi</h4>
+                                    <p class="text-gray-600">Sistem absensi kertas menyebabkan kecurangan dan kesulitan tracking kehadiran real-time.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Payroll Error & Delay</h4>
+                                    <p class="text-gray-600">Perhitungan gaji manual sering error dan prosesnya memakan waktu hingga 1 minggu.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Employee Self-Service Terbatas</h4>
+                                    <p class="text-gray-600">Karyawan kesulitan mengakses informasi pribadi dan melakukan update data mandiri.</p>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    solution: `
+                        <h3 class="text-xl font-semibold mb-4">Solusi yang Diterapkan</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">📱 Biometric Attendance System</h4>
+                                <p class="text-gray-600 text-sm">Integrasi fingerprint dan face recognition untuk absensi akurat dan real-time.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">💰 Automated Payroll System</h4>
+                                <p class="text-gray-600 text-sm">Perhitungan gaji otomatis dengan integrasi tax calculation dan multi-bank transfer.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">👤 Employee Self-Service Portal</h4>
+                                <p class="text-gray-600 text-sm">Portal online untuk karyawan update data pribadi, cuti online, dan claim reimbursement.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">📊 HR Analytics Dashboard</h4>
+                                <p class="text-gray-600 text-sm">Dashboard untuk monitoring turnover rate, performance, dan employee engagement.</p>
+                            </div>
+                        </div>
+                    `,
+                    results: `
+                        <h3 class="text-xl font-semibold mb-4">Hasil yang Dicapai</h3>
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-blue-600 mb-2">100%</div>
+                                <div class="text-sm font-semibold text-gray-700">Akurasi Absensi</div>
+                                <div class="text-xs text-gray-600 mt-1">Tidak ada kecurangan absensi</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-green-600 mb-2">0 Error</div>
+                                <div class="text-sm font-semibold text-gray-700">Payroll Accuracy</div>
+                                <div class="text-xs text-gray-600 mt-1">Perhitungan gaji 100% akurat</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-purple-600 mb-2">2 jam</div>
+                                <div class="text-sm font-semibold text-gray-700">Payroll Processing Time</div>
+                                <div class="text-xs text-gray-600 mt-1">Dari 1 minggu menjadi 2 jam</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-orange-600 mb-2">85%</div>
+                                <div class="text-sm font-semibold text-gray-700">Employee Satisfaction</div>
+                                <div class="text-xs text-gray-600 mt-1">Tingkat kepuasan karyawan meningkat</div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">💬 Testimoni Client:</h4>
+                            <p class="text-gray-600 italic">"HRIS dari SINOTEK telah menyederhanakan semua proses HR kami. Sekarang tim HR bisa fokus pada strategic initiatives, bukan administrative tasks."</p>
+                            <p class="text-sm text-gray-500 mt-2">- Bapak Rahman, HR Director CV Tech Solutions</p>
+                        </div>
+                    `
+                },
+                'software2': {
+                    title: 'Business Analytics Dashboard',
+                    category: 'software',
+                    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085',
+                    overview: `
+                        <p class="text-gray-600 mb-4">Dashboard analytics interaktif untuk monitoring performa bisnis secara real-time dengan predictive analytics. Project ini membantu PT DataDriven Corp mengambil keputusan berbasis data.</p>
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600">50+</div>
+                                <div class="text-sm text-gray-600">Data Sources</div>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">1M+</div>
+                                <div class="text-sm text-gray-600">Records/Hari</div>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-purple-600">5</div>
+                                <div class="text-sm text-gray-600">Bulan Development</div>
+                            </div>
+                        </div>
+                    `,
+                    challenge: `
+                        <h3 class="text-xl font-semibold mb-4">Tantangan yang Dihadapi</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Data Silo & Fragmentation</h4>
+                                    <p class="text-gray-600">Data tersimpan di berbagai sistem berbeda, sulit untuk analisis holistik.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Delayed Business Insights</h4>
+                                    <p class="text-gray-600">Laporan bulanan tidak cukup untuk mengambil keputusan real-time.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Complex Data Visualization</h4>
+                                    <p class="text-gray-600">Dashboard yang ada sulit dipahami oleh non-technical users.</p>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    solution: `
+                        <h3 class="text-xl font-semibold mb-4">Solusi yang Diterapkan</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🔗 Data Integration Platform</h4>
+                                <p class="text-gray-600 text-sm">ETL pipeline untuk mengintegrasikan data dari 50+ sumber secara real-time.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">📊 Interactive Dashboards</h4>
+                                <p class="text-gray-600 text-sm">Dashboard dengan drill-down capabilities dan custom filters untuk setiap user role.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🤖 Predictive Analytics</h4>
+                                <p class="text-gray-600 text-sm">Machine learning models untuk forecasting sales dan demand prediction.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">📱 Mobile Analytics App</h4>
+                                <p class="text-gray-600 text-sm">Aplikasi mobile untuk monitoring KPIs saat traveling atau meeting.</p>
+                            </div>
+                        </div>
+                    `,
+                    results: `
+                        <h3 class="text-xl font-semibold mb-4">Hasil yang Dicapai</h3>
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-blue-600 mb-2">60%</div>
+                                <div class="text-sm font-semibold text-gray-700">Faster Decision Making</div>
+                                <div class="text-xs text-gray-600 mt-1">Dari mingguan menjadi real-time</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-green-600 mb-2">85%</div>
+                                <div class="text-sm font-semibold text-gray-700">Data-Driven Decisions</div>
+                                <div class="text-xs text-gray-600 mt-1">Keputusan berdasarkan data akurat</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-purple-600 mb-2">ROI 250%</div>
+                                <div class="text-sm font-semibold text-gray-700">Return on Investment</div>
+                                <div class="text-xs text-gray-600 mt-1">Break-even dalam 6 bulan</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-orange-600 mb-2">40%</div>
+                                <div class="text-sm font-semibold text-gray-700">Cost Reduction</div>
+                                <div class="text-xs text-gray-600 mt-1">Pengurangan biaya operasional</div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">💬 Testimoni Client:</h4>
+                            <p class="text-gray-600 italic">"Dashboard analytics dari SINOTEK telah mengubah cara kami berbisnis. Sekarang kami bisa melihat performa real-time dan mengantisipasi masalah sebelum terjadi."</p>
+                            <p class="text-sm text-gray-500 mt-2">- Bapak Andi, CEO PT DataDriven Corp</p>
+                        </div>
+                    `
+                },
+                'mobile1': {
+                    title: 'E-Commerce Mobile App',
+                    category: 'mobile',
+                    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80',
+                    overview: `
+                        <p class="text-gray-600 mb-4">Aplikasi e-commerce mobile dengan UI/UX optimal dan integrasi payment gateway lengkap. Project ini membantu UD Mobile Commerce meningkatkan penjualan online mereka secara signifikan.</p>
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600">10K+</div>
+                                <div class="text-sm text-gray-600">Active Users</div>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">30%</div>
+                                <div class="text-sm text-gray-600">Conversion Increase</div>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-purple-600">3</div>
+                                <div class="text-sm text-gray-600">Bulan Development</div>
+                            </div>
+                        </div>
+                    `,
+                    challenge: `
+                        <h3 class="text-xl font-semibold mb-4">Tantangan yang Dihadapi</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Low Mobile Conversion Rate</h4>
+                                    <p class="text-gray-600">Website responsive tidak optimal untuk mobile, menyebabkan bounce rate tinggi.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Limited Payment Options</h4>
+                                    <p class="text-gray-600">Hanya menerima transfer bank manual, menyebabkan cart abandonment.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Poor User Experience</h4>
+                                    <p class="text-gray-600">Navigasi website rumit dan loading lambat di mobile devices.</p>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    solution: `
+                        <h3 class="text-xl font-semibold mb-4">Solusi yang Diterapkan</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">📱 Native Mobile App</h4>
+                                <p class="text-gray-600 text-sm">Aplikasi native untuk iOS dan Android dengan performance optimal dan offline capabilities.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">💳 Multiple Payment Gateways</h4>
+                                <p class="text-gray-600 text-sm">Integrasi dengan Midtrans, Gopay, OVO, Dana, dan kartu kredit untuk kemudahan pembayaran.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🎨 Intuitive UI/UX Design</h4>
+                                <p class="text-gray-600 text-sm">Design system yang konsisten dengan user journey yang smooth dan engaging.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🚀 Push Notifications</h4>
+                                <p class="text-gray-600 text-sm">Personalized notifications untuk re-engagement dan promotional campaigns.</p>
+                            </div>
+                        </div>
+                    `,
+                    results: `
+                        <h3 class="text-xl font-semibold mb-4">Hasil yang Dicapai</h3>
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-blue-600 mb-2">30%</div>
+                                <div class="text-sm font-semibold text-gray-700">Conversion Rate Increase</div>
+                                <div class="text-xs text-gray-600 mt-1">Dari 2.1% menjadi 2.73%</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-green-600 mb-2">85%</div>
+                                <div class="text-sm font-semibold text-gray-700">User Retention Rate</div>
+                                <div class="text-xs text-gray-600 mt-1">Pengguna aktif bulanan</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-xl">
+                                <div class="text-2xl font-bold text-purple-600 mb-2">65%</div>
+                                <div class="text-sm font-semibold text-gray-700">Mobile Revenue Share</div>
+                                <div class="text-xs text-gray-600 mt-1">Pendapatan dari mobile app</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-orange-600 mb-2">4.8★</div>
+                                <div class="text-sm font-semibold text-gray-700">App Store Rating</div>
+                                <div class="text-xs text-gray-600 mt-1">Rating tinggi dari users</div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">💬 Testimoni Client:</h4>
+                            <p class="text-gray-600 italic">"Aplikasi mobile dari SINOTEK telah mengubah bisnis e-commerce kami. Penjualan mobile sekarang 65% dari total revenue dan customer satisfaction sangat tinggi."</p>
+                            <p class="text-sm text-gray-500 mt-2">- Bapak Budi, Founder UD Mobile Commerce</p>
+                        </div>
+                    `
+                },
+                'mobile2': {
+                    title: 'Fitness Tracking App',
+                    category: 'mobile',
+                    image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1200&q=80',
+                    overview: `
+                        <p class="text-gray-600 mb-4">Aplikasi fitness tracking dengan fitur gamifikasi dan social engagement untuk meningkatkan motivasi olahraga. Project ini membantu FitLife Community membangun komunitas fitness aktif.</p>
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600">50K+</div>
+                                <div class="text-sm text-gray-600">Active Users</div>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">4.7★</div>
+                                <div class="text-sm text-gray-600">App Rating</div>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <div class="text-2xl font-bold text-purple-600">4</div>
+                                <div class="text-sm text-gray-600">Bulan Development</div>
+                            </div>
+                        </div>
+                    `,
+                    challenge: `
+                        <h3 class="text-xl font-semibold mb-4">Tantangan yang Dihadapi</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Low User Engagement</h4>
+                                    <p class="text-gray-600">Aplikasi fitness existing memiliki retention rate rendah karena kurangnya motivasi berkelanjutan.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Limited Social Features</h4>
+                                    <p class="text-gray-600">Tidak ada fitur komunitas untuk berbagi progress dan saling memotivasi.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-2">Generic Workout Plans</h4>
+                                    <p class="text-gray-600">Program olahraga tidak personalized berdasarkan level fitness dan goals pengguna.</p>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    solution: `
+                        <h3 class="text-xl font-semibold mb-4">Solusi yang Diterapkan</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🎯 Gamification System</h4>
+                                <p class="text-gray-600 text-sm">Points, badges, dan achievements untuk meningkatkan motivasi dan engagement.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">👥 Social Community</h4>
+                                <p class="text-gray-600 text-sm">Fitur challenges, leaderboards, dan group workouts untuk social engagement.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🎨 Personalized Workouts</h4>
+                                <p class="text-gray-600 text-sm">AI-powered workout recommendations berdasarkan fitness level dan preferences.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">📊 Advanced Tracking</h4>
+                                <p class="text-gray-600 text-sm">GPS tracking, heart rate monitoring, dan detailed progress analytics.</p>
+                            </div>
+                        </div>
+                    `,
+                    results: `
+                        <h3 class="text-xl font-semibold mb-4">Hasil yang Dicapai</h3>
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-blue-600 mb-2">80%</div>
+                                <div class="text-sm font-semibold text-gray-700">User Retention Rate</div>
+                                <div class="text-xs text-gray-600 mt-1">30 hari pertama pengguna aktif</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-xl">
+                                <div class="text-2xl font-bold text-green-600 mb-2">50K+</div>
+                                <div class="text-sm font-semibold text-gray-700">Community Members</div>
+                                <div class="text-xs text-gray-600 mt-1">Pengguna aktif dalam komunitas</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-purple-600 mb-2">4.7★</div>
+                                <div class="text-sm font-semibold text-gray-700">App Store Rating</div>
+                                <div class="text-xs text-gray-600 mt-1">Rating tinggi dari users</div>
+                            </div>
+                            <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-6 rounded-xl">
+                                <div class="text-3xl font-bold text-orange-600 mb-2">25%</div>
+                                <div class="text-sm font-semibold text-gray-700">Avg Session Time</div>
+                                <div class="text-xs text-gray-600 mt-1">Peningkatan engagement</div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">💬 Testimoni Client:</h4>
+                            <p class="text-gray-600 italic">"Aplikasi FitLife telah menciptakan komunitas fitness terbesar di Indonesia. User engagement dan retention rate melampaui ekspektasi kami."</p>
+                            <p class="text-sm text-gray-500 mt-2">- Ibu Maya, CEO FitLife Community</p>
+                        </div>
+                    `
+                }
+            };
+            
+            return projects[projectId] || null;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Category buttons
+            document.querySelectorAll('[data-category-btn]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selectedCategory = this.dataset.category;
+                    document.querySelectorAll('[data-category-btn]').forEach(b => b.classList.remove('bg-blue-600', 'text-white'));
+                    document.querySelectorAll('[data-category-btn]').forEach(b => b.classList.add('border', 'text-gray-700'));
+                    this.classList.remove('border', 'text-gray-700');
+                    this.classList.add('bg-blue-600', 'text-white');
+                    filterProjects();
+                });
+            });
+
+            // Search input
+            document.getElementById('search-input').addEventListener('input', function() {
+                searchQuery = this.value;
+                filterProjects();
+            });
+
+            // Modal close on outside click
+            document.getElementById('modal').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+        });
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-slate-900">
+
+<!-- NAVBAR -->
+<nav class="fixed w-full z-50 glass-morphism">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex justify-between h-20 items-center">
+            <div class="flex-shrink-0">
+                <a href="index.html" class="text-2xl font-bold text-blue-600 tracking-tighter">SINOTEK</a>
+            </div>
+
+            <div class="hidden md:flex space-x-8 items-center text-sm font-semibold">
+                <a href="index.html" class="hover:text-blue-600">Beranda</a>
+                <div class="relative group">
+                    <a href="about.html" class="hover:text-blue-600 flex items-center">Tentang Kami <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg></a>
+                    <div class="absolute top-full -left-4 w-48 bg-white shadow-xl rounded-lg py-2 border border-gray-100 hidden">
+                        <a href="about.html#vision" class="block px-4 py-2 hover:bg-blue-50">Visi & Misi</a>
+                        <a href="about.html#team" class="block px-4 py-2 hover:bg-blue-50">Leadership</a>
+                        <a href="about.html#timeline" class="block px-4 py-2 hover:bg-blue-50">Timeline</a>
+                    </div>
+                </div>
+                <a href="Service.html" class="hover:text-blue-600">Layanan</a>
+                <a href="portofolio.html" class="text-blue-600">Portofolio</a>
+                <a href="product.html" class="hover:text-blue-600">Produk</a>
+                <a href="contact.html" class="bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition">Hubungi Kami</a>
+            </div>
+
+            <div class="md:hidden">
+                <button onclick="toggleMobileMenu()" class="p-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 p-4 space-y-4 hidden">
+        <a href="index.html" class="block font-semibold">Beranda</a>
+        <a href="about.html" class="block font-semibold text-gray-600">Tentang Kami</a>
+        <a href="Service.html" class="block font-semibold text-gray-600">Layanan</a>
+        <a href="portofolio.html" class="block font-semibold text-blue-600">Portofolio</a>
+        <a href="product.html" class="block font-semibold text-gray-600">Produk</a>
+        <a href="contact.html" class="block font-semibold text-gray-600">Hubungi Kami</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="pt-32 pb-24 bg-white text-center">
+    <div class="max-w-3xl mx-auto px-6">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-6">
+            Hasil Nyata dari <span class="text-blue-600">Solusi yang Kami Bangun</span>
+        </h1>
+        <p class="text-gray-600 text-lg">
+            Beberapa project yang telah membantu client meningkatkan efisiensi dan performa bisnis.
+        </p>
+    </div>
+</section>
+
+<!-- FILTER -->
+<section class="py-10">
+    <div class="max-w-6xl mx-auto px-6">
+        <!-- Search Bar -->
+        <div class="mb-8">
+            <div class="relative max-w-md mx-auto">
+                <input id="search-input" type="text" placeholder="Cari project..." class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <svg class="absolute left-3 top-3.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Category Buttons -->
+        <div class="flex flex-wrap justify-center gap-4">
+            <button data-category-btn data-category="all" class="bg-blue-600 text-white px-5 py-2 rounded-full text-sm transition">Semua</button>
+            <button data-category-btn data-category="erp" class="border text-gray-700 px-5 py-2 rounded-full text-sm transition">ERP</button>
+            <button data-category-btn data-category="software" class="border text-gray-700 px-5 py-2 rounded-full text-sm transition">Software</button>
+            <button data-category-btn data-category="mobile" class="border text-gray-700 px-5 py-2 rounded-full text-sm transition">Mobile App</button>
+        </div>
+    </div>
+</section>
+
+<!-- PORTFOLIO GRID -->
+<section class="pb-20">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+        <!-- CARD 1 -->
+        <div data-category="erp" data-title="ERP Retail Management" data-desc="Integrasi inventory, sales, dan laporan keuangan dalam satu sistem." class="bg-white rounded-2xl shadow hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden opacity-0 animate-fade-in">
+            <div class="relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80" alt="ERP Retail Management" class="h-56 w-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div class="p-6">
+                <span class="text-xs text-blue-600 font-semibold bg-blue-50 px-2 py-1 rounded-full">ERP SYSTEM</span>
+                <h3 class="text-lg font-bold mt-3 mb-2">ERP Retail Management</h3>
+                <p class="text-gray-600 text-sm mb-4">
+                    Integrasi inventory, sales, dan laporan keuangan dalam satu sistem.
+                </p>
+
+                <div class="text-sm text-gray-500 mb-4 space-y-1">
+                    <div class="flex items-center"><span class="text-green-500 mr-2">✓</span> Efisiensi +40%</div>
+                    <div class="flex items-center"><span class="text-green-500 mr-2">✓</span> Error data turun drastis</div>
+                </div>
+
+                <button onclick="openModal('erp1')" class="text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group">
+                    Lihat Case Study <span class="inline-block transition-transform group-hover:translate-x-1">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div data-category="software" data-title="HRIS Platform" data-desc="Sistem manajemen karyawan berbasis cloud." class="bg-white rounded-2xl shadow hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden opacity-0 animate-fade-in" style="animation-delay: 0.1s;">
+            <div class="relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f" class="h-56 w-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div class="p-6">
+                <span class="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-full">SOFTWARE</span>
+                <h3 class="text-lg font-bold mt-3 mb-2">HRIS Platform</h3>
+                <p class="text-gray-600 text-sm mb-4">
+                    Sistem manajemen karyawan berbasis cloud.
+                </p>
+
+                <div class="text-sm text-gray-500 mb-4 space-y-1">
+                    <div class="flex items-center"><span class="text-green-500 mr-2">✓</span> Absensi otomatis</div>
+                    <div class="flex items-center"><span class="text-green-500 mr-2">✓</span> Payroll terintegrasi</div>
+                </div>
+
+                <button onclick="openModal('software1')" class="text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group">
+                    Lihat Case Study <span class="inline-block transition-transform group-hover:translate-x-1">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div data-category="software" data-title="Business Analytics" data-desc="Dashboard visual untuk monitoring performa bisnis." class="bg-white rounded-2xl shadow hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden opacity-0 animate-fade-in" style="animation-delay: 0.2s;">
+            <div class="relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085" class="h-56 w-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div class="p-6">
+                <span class="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-full">SOFTWARE</span>
+                <h3 class="text-lg font-bold mt-3 mb-2">Business Analytics</h3>
+                <p class="text-gray-600 text-sm mb-4">
+                    Dashboard visual untuk monitoring performa bisnis.
+                </p>
+
+                <div class="text-sm text-gray-500 mb-4 space-y-1">
+                    <div class="flex items-center"><span class="text-green-500 mr-2">✓</span> Data real-time</div>
+                    <div class="flex items-center"><span class="text-green-500 mr-2">✓</span> Insight lebih cepat</div>
+                </div>
+
+                <button onclick="openModal('software2')" class="text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group">
+                    Lihat Case Study <span class="inline-block transition-transform group-hover:translate-x-1">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div data-category="mobile" data-title="E-Commerce Mobile App" data-desc="Aplikasi mobile untuk belanja online dengan fitur payment gateway." class="bg-white rounded-2xl shadow hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden opacity-0 animate-fade-in" style="animation-delay: 0.3s;">
+            <div class="relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80" alt="Mobile App E-Commerce" class="h-56 w-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div class="p-6">
+                <span class="text-xs text-purple-600 font-semibold bg-purple-50 px-2 py-1 rounded-full">MOBILE APP</span>
+                <h3 class="text-lg font-bold mt-3 mb-2">E-Commerce Mobile App</h3>
+                <p class="text-gray-600 text-sm mb-4">
+                    Aplikasi mobile untuk belanja online dengan fitur payment gateway.
+                </p>
+
+                <div class="text-sm text-gray-500 mb-4 space-y-1">
+                    <div class="flex items-center"><span class="text-green-500 mr-2">✓</span> User experience optimal</div>
+                    <div class="flex items-center"><span class="text-green-500 mr-2">✓</span> Konversi penjualan +30%</div>
+                </div>
+
+                <button onclick="openModal('mobile1')" class="text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group">
+                    Lihat Case Study <span class="inline-block transition-transform group-hover:translate-x-1">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div data-category="erp" data-title="ERP Manufacturing" data-desc="Sistem terintegrasi untuk manajemen produksi dan supply chain." class="bg-white rounded-2xl shadow hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden opacity-0 animate-fade-in" style="animation-delay: 0.4s;">
+            <div class="relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" alt="ERP Manufacturing" class="h-56 w-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div class="p-6">
+                <span class="text-xs text-blue-600 font-semibold bg-blue-50 px-2 py-1 rounded-full">ERP SYSTEM</span>
+                <h3 class="text-lg font-bold mt-3 mb-2">ERP Manufacturing</h3>
+                <p class="text-gray-600 text-sm mb-4">
+                    Sistem terintegrasi untuk manajemen produksi dan supply chain.
+                </p>
+
+                <div class="text-sm text-gray-500 mb-4 space-y-1">
+                    <div class="flex items-center"><span class="text-green-500 mr-2">✓</span> Produksi efisien</div>
+                    <div class="flex items-center"><span class="text-green-500 mr-2">✓</span> Biaya operasional turun</div>
+                </div>
+
+                <button onclick="openModal('erp2')" class="text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group">
+                    Lihat Case Study <span class="inline-block transition-transform group-hover:translate-x-1">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div data-category="mobile" data-title="Fitness Tracking App" data-desc="Aplikasi mobile untuk tracking olahraga dan kesehatan." class="bg-white rounded-2xl shadow hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden opacity-0 animate-fade-in" style="animation-delay: 0.5s;">
+            <div class="relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1200&q=80" alt="Fitness Tracking App" class="h-56 w-full object-cover transition-transform duration-300 hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div class="p-6">
+                <span class="text-xs text-purple-600 font-semibold bg-purple-50 px-2 py-1 rounded-full">MOBILE APP</span>
+                <h3 class="text-lg font-bold mt-3 mb-2">Fitness Tracking App</h3>
+                <p class="text-gray-600 text-sm mb-4">
+                    Aplikasi mobile untuk tracking olahraga dan kesehatan.
+                </p>
+
+                <div class="text-sm text-gray-500 mb-4 space-y-1">
+                    <div class="flex items-center"><span class="text-green-500 mr-2">✓</span> User engagement tinggi</div>
+                    <div class="flex items-center"><span class="text-green-500 mr-2">✓</span> Fitur gamifikasi</div>
+                </div>
+
+                <button onclick="openModal('mobile2')" class="text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors group">
+                    Lihat Case Study <span class="inline-block transition-transform group-hover:translate-x-1">→</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h2 id="modal-title" class="text-2xl font-bold">Case Study</h2>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Tabs -->
+                <div class="flex space-x-1 mb-6 bg-gray-100 p-1 rounded-lg">
+                    <button onclick="switchTab('overview')" class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition bg-white shadow-sm">Overview</button>
+                    <button onclick="switchTab('challenge')" class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition text-gray-600">Challenge</button>
+                    <button onclick="switchTab('solution')" class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition text-gray-600">Solution</button>
+                    <button onclick="switchTab('results')" class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition text-gray-600">Results</button>
+                </div>
+
+                <!-- Tab Content -->
+                <div id="overview-content" class="tab-content">
+                    <img id="modal-image" src="" class="w-full h-64 object-cover rounded-lg mb-6">
+                    <div id="overview-text"></div>
+                </div>
+
+                <div id="challenge-content" class="tab-content hidden">
+                    <h3 class="text-xl font-semibold mb-4">Tantangan yang Dihadapi</h3>
+                    <div id="challenge-text"></div>
+                </div>
+
+                <div id="solution-content" class="tab-content hidden">
+                    <h3 class="text-xl font-semibold mb-4">Solusi yang Diterapkan</h3>
+                    <div id="solution-text"></div>
+                </div>
+
+                <div id="results-content" class="tab-content hidden">
+                    <h3 class="text-xl font-semibold mb-4">Hasil yang Dicapai</h3>
+                    <div id="results-text"></div>
+                </div>
+
+                <div class="flex space-x-4 mt-6">
+                    <button class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        Demo Interaktif
+                    </button>
+                    <button class="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
+                        Download PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold mb-4">Apa Kata Klien Kami</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                Testimoni dari berbagai perusahaan yang telah bekerja sama dengan kami.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Testimonial 1 -->
+            <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                        <span class="text-blue-600 font-bold text-lg">PT</span>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">PT Retail Nusantara</h4>
+                        <p class="text-sm text-gray-600">Direktur Operasional</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic mb-4">
+                    "ERP system yang dibangun SINOTEK telah meningkatkan efisiensi operasional kami hingga 40%. Sangat recommended!"
+                </p>
+                <div class="flex text-yellow-400">
+                    ★★★★★
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                        <span class="text-green-600 font-bold text-lg">CV</span>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">CV Tech Solutions</h4>
+                        <p class="text-sm text-gray-600">CEO</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic mb-4">
+                    "Aplikasi HRIS yang user-friendly dan fitur lengkap. Tim support sangat responsif."
+                </p>
+                <div class="flex text-yellow-400">
+                    ★★★★★
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                        <span class="text-purple-600 font-bold text-lg">UD</span>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">UD Mobile Commerce</h4>
+                        <p class="text-sm text-gray-600">Founder</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic mb-4">
+                    "Aplikasi e-commerce mobile kami sekarang punya konversi 30% lebih tinggi. Terima kasih SINOTEK!"
+                </p>
+                <div class="flex text-yellow-400">
+                    ★★★★★
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-20 bg-white text-center">
+    <h2 class="text-3xl font-bold mb-4">
+        Ingin Hasil Seperti Ini?
+    </h2>
+    <p class="text-gray-600 mb-8">
+        Diskusikan kebutuhan bisnis Anda bersama tim kami.
+    </p>
+    <a href="contact.html" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold">
+        Konsultasi Gratis
+    </a>
+</section>
+
+</body>
+</html>

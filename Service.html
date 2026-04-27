@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan | SINOTEK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-slate-900" x-data="{ mobileMenu: false }">
+
+<!-- NAVBAR -->
+<nav class="fixed w-full z-50 glass-morphism">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex justify-between h-20 items-center">
+            <div class="flex-shrink-0">
+                <a href="index.html" class="text-2xl font-bold text-blue-600 tracking-tighter">SINOTEK</a>
+            </div>
+
+            <div class="hidden md:flex space-x-8 items-center text-sm font-semibold">
+                <a href="index.html" class="hover:text-blue-600">Beranda</a>
+                <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                    <a href="about.html" class="hover:text-blue-600 flex items-center">Tentang Kami <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg></a>
+                    <div x-show="open" class="absolute top-full -left-4 w-48 bg-white shadow-xl rounded-lg py-2 border border-gray-100">
+                        <a href="about.html#vision" class="block px-4 py-2 hover:bg-blue-50">Visi & Misi</a>
+                        <a href="about.html#team" class="block px-4 py-2 hover:bg-blue-50">Leadership</a>
+                        <a href="about.html#timeline" class="block px-4 py-2 hover:bg-blue-50">Timeline</a>
+                    </div>
+                </div>
+                <a href="service.html" class="text-blue-600">Layanan</a>
+                <a href="portofolio.html" class="hover:text-blue-600">Portofolio</a>
+                <a href="product.html" class="hover:text-blue-600">Produk</a>
+                <a href="contact.html" class="bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition">Hubungi Kami</a>
+            </div>
+
+            <div class="md:hidden">
+                <button @click="mobileMenu = !mobileMenu" class="p-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
+            </div>
+        </div>
+    </div>
+
+    <div x-show="mobileMenu" class="md:hidden bg-white border-t border-gray-100 p-4 space-y-4">
+        <a href="index.html" class="block font-semibold">Beranda</a>
+        <a href="about.html" class="block font-semibold text-gray-600">Tentang Kami</a>
+        <a href="service.html" class="block font-semibold text-blue-600">Layanan</a>
+        <a href="portofolio.html" class="block font-semibold text-gray-600">Portofolio</a>
+        <a href="product.html" class="block font-semibold text-gray-600">Produk</a>
+        <a href="contact.html" class="block font-semibold text-gray-600">Hubungi Kami</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="pt-32 pb-24 bg-white text-center">
+    <div class="max-w-3xl mx-auto px-6">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-6">
+            Solusi IT yang <span class="text-blue-600">Benar-Benar Dipakai</span>, Bukan Sekadar Dibeli
+        </h1>
+        <p class="text-gray-600 text-lg">
+            Kami membantu bisnis membangun sistem yang efisien, terintegrasi, dan sesuai dengan workflow nyata.
+        </p>
+    </div>
+</section>
+
+<!-- MASALAH USER -->
+<section class="py-20">
+    <div class="max-w-6xl mx-auto px-6 text-center mb-16">
+        <h2 class="text-3xl font-bold">Masalah yang Sering Terjadi</h2>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-xl shadow">
+            <p class="text-gray-600">Masih pakai Excel dan sering error data?</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow">
+            <p class="text-gray-600">Sistem mahal tapi tidak dipakai tim?</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow">
+            <p class="text-gray-600">Data antar divisi tidak sinkron?</p>
+        </div>
+    </div>
+</section>
+
+<!-- LAYANAN DETAIL -->
+<section class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6 space-y-16">
+
+        <!-- SOFTWARE DEV -->
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692" class="rounded-2xl shadow">
+            <div>
+                <h3 class="text-2xl font-bold mb-4">Software Development</h3>
+                <p class="text-gray-600 mb-4">
+                    Pengembangan aplikasi web & mobile yang disesuaikan dengan kebutuhan bisnis Anda.
+                </p>
+                <ul class="text-gray-600 space-y-2 mb-4">
+                    <li>✔ Sistem ERP Custom</li>
+                    <li>✔ HRIS & Dashboard</li>
+                    <li>✔ Aplikasi Mobile</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ERP -->
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+            <div>
+                <h3 class="text-2xl font-bold mb-4">ERP Solution</h3>
+                <p class="text-gray-600 mb-4">
+                    Integrasi semua proses bisnis dalam satu sistem yang efisien.
+                </p>
+                <ul class="text-gray-600 space-y-2 mb-4">
+                    <li>✔ Inventory Management</li>
+                    <li>✔ Finance & Accounting</li>
+                    <li>✔ Reporting Real-time</li>
+                </ul>
+            </div>
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f" class="rounded-2xl shadow">
+        </div>
+
+        <!-- TRAINING -->
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c" class="rounded-2xl shadow">
+            <div>
+                <h3 class="text-2xl font-bold mb-4">IT Training</h3>
+                <p class="text-gray-600 mb-4">
+                    Pelatihan untuk meningkatkan kemampuan digital tim Anda.
+                </p>
+                <ul class="text-gray-600 space-y-2 mb-4">
+                    <li>✔ Training Software</li>
+                    <li>✔ Digital Mindset</li>
+                    <li>✔ Workflow Optimization</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- MANAGED -->
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+            <div>
+                <h3 class="text-2xl font-bold mb-4">Managed Services</h3>
+                <p class="text-gray-600 mb-4">
+                    Maintenance dan monitoring sistem IT secara menyeluruh.
+                </p>
+                <ul class="text-gray-600 space-y-2 mb-4">
+                    <li>✔ Server Monitoring</li>
+                    <li>✔ Maintenance System</li>
+                    <li>✔ Support 24/7</li>
+                </ul>
+            </div>
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085" class="rounded-2xl shadow">
+        </div>
+
+    </div>
+</section>
+
+<!-- PROSES KERJA -->
+<section class="py-20">
+    <div class="max-w-6xl mx-auto px-6 text-center mb-16">
+        <h2 class="text-3xl font-bold">Cara Kami Bekerja</h2>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-8 text-center">
+        <div>
+            <h3 class="font-bold mb-2">1. Analisis</h3>
+            <p class="text-gray-600 text-sm">Memahami kebutuhan bisnis Anda</p>
+        </div>
+        <div>
+            <h3 class="font-bold mb-2">2. Planning</h3>
+            <p class="text-gray-600 text-sm">Menyusun solusi terbaik</p>
+        </div>
+        <div>
+            <h3 class="font-bold mb-2">3. Development</h3>
+            <p class="text-gray-600 text-sm">Membangun sistem</p>
+        </div>
+        <div>
+            <h3 class="font-bold mb-2">4. Support</h3>
+            <p class="text-gray-600 text-sm">Maintenance & improvement</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-20 bg-white text-center">
+    <h2 class="text-3xl font-bold mb-4">
+        Butuh Solusi yang Tepat untuk Bisnis Anda?
+    </h2>
+    <p class="text-gray-600 mb-8">
+        Konsultasikan kebutuhan Anda bersama tim kami.
+    </p>
+    <a href="contact.html" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold">
+        Konsultasi Gratis
+    </a>
+</section>
+
+</body>
+</html>

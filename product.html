@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produk | SINOTEK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-slate-900" x-data="{ mobileMenu: false }">
+
+<!-- NAVBAR -->
+<nav class="fixed w-full z-50 glass-morphism">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex justify-between h-20 items-center">
+            <div class="flex-shrink-0">
+                <a href="index.html" class="text-2xl font-bold text-blue-600 tracking-tighter">SINOTEK</a>
+            </div>
+
+            <div class="hidden md:flex space-x-8 items-center text-sm font-semibold">
+                <a href="index.html" class="hover:text-blue-600">Beranda</a>
+                <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                    <a href="about.html" class="hover:text-blue-600 flex items-center">Tentang Kami <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg></a>
+                    <div x-show="open" class="absolute top-full -left-4 w-48 bg-white shadow-xl rounded-lg py-2 border border-gray-100">
+                        <a href="about.html#vision" class="block px-4 py-2 hover:bg-blue-50">Visi & Misi</a>
+                        <a href="about.html#team" class="block px-4 py-2 hover:bg-blue-50">Leadership</a>
+                        <a href="about.html#timeline" class="block px-4 py-2 hover:bg-blue-50">Timeline</a>
+                    </div>
+                </div>
+                <a href="service.html" class="hover:text-blue-600">Layanan</a>
+                <a href="portofolio.html" class="hover:text-blue-600">Portofolio</a>
+                <a href="product.html" class="text-blue-600">Produk</a>
+                <a href="contact.html" class="bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition">Hubungi Kami</a>
+            </div>
+
+            <div class="md:hidden">
+                <button @click="mobileMenu = !mobileMenu" class="p-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
+            </div>
+        </div>
+    </div>
+
+    <div x-show="mobileMenu" class="md:hidden bg-white border-t border-gray-100 p-4 space-y-4">
+        <a href="index.html" class="block font-semibold">Beranda</a>
+        <a href="about.html" class="block font-semibold text-gray-600">Tentang Kami</a>
+        <a href="service.html" class="block font-semibold text-gray-600">Layanan</a>
+        <a href="portofolio.html" class="block font-semibold text-gray-600">Portofolio</a>
+        <a href="product.html" class="block font-semibold text-blue-600">Produk</a>
+        <a href="contact.html" class="block font-semibold text-gray-600">Hubungi Kami</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="pt-32 pb-24 bg-white text-center">
+    <div class="max-w-3xl mx-auto px-6">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-6">
+            Produk Digital Siap Pakai untuk <span class="text-blue-600">Bisnis Modern</span>
+        </h1>
+        <p class="text-gray-600 text-lg">
+            Solusi yang dirancang untuk mempercepat operasional bisnis tanpa harus membangun dari nol.
+        </p>
+    </div>
+</section>
+
+<!-- PRODUK -->
+<section class="py-20">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10">
+
+        <!-- ERP -->
+        <div class="bg-white p-8 rounded-2xl shadow hover:shadow-xl transition">
+            <h3 class="text-2xl font-bold mb-3">SINOTEK ERP</h3>
+            <p class="text-gray-600 mb-6">
+                Sistem ERP modular untuk mengelola seluruh proses bisnis dalam satu platform.
+            </p>
+
+            <ul class="text-gray-600 space-y-2 mb-6">
+                <li>✔ Inventory Management</li>
+                <li>✔ Finance & Accounting</li>
+                <li>✔ Sales & CRM</li>
+                <li>✔ Reporting Real-time</li>
+            </ul>
+
+            <div class="mb-6">
+                <span class="text-2xl font-bold">Mulai dari Rp 2jt</span>
+                <span class="text-gray-500 text-sm">/bulan</span>
+            </div>
+
+            <a href="contact.html" class="block text-center bg-blue-600 text-white py-3 rounded-xl font-semibold">
+                Coba Konsultasi
+            </a>
+        </div>
+
+        <!-- HRIS -->
+        <div class="bg-white p-8 rounded-2xl shadow hover:shadow-xl transition">
+            <h3 class="text-2xl font-bold mb-3">SINOTEK HRIS</h3>
+            <p class="text-gray-600 mb-6">
+                Sistem manajemen karyawan berbasis cloud untuk meningkatkan efisiensi HR.
+            </p>
+
+            <ul class="text-gray-600 space-y-2 mb-6">
+                <li>✔ Absensi Online</li>
+                <li>✔ Payroll Otomatis</li>
+                <li>✔ Manajemen Cuti</li>
+                <li>✔ Employee Dashboard</li>
+            </ul>
+
+            <div class="mb-6">
+                <span class="text-2xl font-bold">Mulai dari Rp 1jt</span>
+                <span class="text-gray-500 text-sm">/bulan</span>
+            </div>
+
+            <a href="contact.html" class="block text-center bg-blue-600 text-white py-3 rounded-xl font-semibold">
+                Coba Konsultasi
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- KEUNGGULAN -->
+<section class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6 text-center mb-16">
+        <h2 class="text-3xl font-bold">Kenapa Produk Kami?</h2>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+
+        <div class="bg-gray-50 p-6 rounded-xl">
+            <h3 class="font-bold mb-2">Siap Pakai</h3>
+            <p class="text-gray-600 text-sm">
+                Tidak perlu build dari nol, langsung digunakan.
+            </p>
+        </div>
+
+        <div class="bg-gray-50 p-6 rounded-xl">
+            <h3 class="font-bold mb-2">Flexible</h3>
+            <p class="text-gray-600 text-sm">
+                Bisa disesuaikan dengan kebutuhan bisnis.
+            </p>
+        </div>
+
+        <div class="bg-gray-50 p-6 rounded-xl">
+            <h3 class="font-bold mb-2">Scalable</h3>
+            <p class="text-gray-600 text-sm">
+                Cocok untuk bisnis yang terus berkembang.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-20 text-center">
+    <h2 class="text-3xl font-bold mb-4">
+        Mau Coba Produk Kami?
+    </h2>
+    <p class="text-gray-600 mb-8">
+        Konsultasikan kebutuhan bisnis Anda tanpa komitmen.
+    </p>
+    <a href="contact.html" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold">
+        Konsultasi Gratis
+    </a>
+</section>
+
+</body>
+</html>
